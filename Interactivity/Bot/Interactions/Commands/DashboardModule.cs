@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.Interactions;
 using Interactivity.Bot.Interactions.context;
+using Interactivity.Bot.Interactions.Precondition;
 using Interactivity.Bot.Services;
-using Interactivity.Bot.Utilities;
-using Interactivity.Data;
 
 namespace Interactivity.Bot.Interactions.Commands;
 
+[IsServerModerator]
 public class DashboardModule : InteractionModuleBase<EmberInteractionContext>
 {
     private const string BUTTON_CONFIGURE_SERVER = "btn_configure";

@@ -19,7 +19,7 @@ namespace Interactivity.Bot
         private bool _ready;
         private bool _alive;
 
-        private CommandHandler _commandHandler;
+        private InteractionHandler _interactionHandler;
         
         // Services
         private LoggingService _loggingService;
@@ -38,7 +38,7 @@ namespace Interactivity.Bot
 
             _interactionService = new InteractionService(Client);
             _dataService = new DataService();
-
+            
             _loggingService = new LoggingService(Client, _interactionService);
         }
 
@@ -57,7 +57,7 @@ namespace Interactivity.Bot
             await _interactionService.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: serviceProvider);
 
             // Create the command handler.
-            _commandHandler = new CommandHandler(this, serviceProvider, _interactionService, _loggingService);
+            _interactionHandler = new InteractionHandler(this, serviceProvider, _interactionService, _loggingService);
 
             // Start the client
             await Client.LoginAsync(TokenType.Bot, _token);

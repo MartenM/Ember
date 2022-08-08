@@ -43,7 +43,7 @@ namespace Interactivity.Migrations
 
                     b.HasKey("GuildId");
 
-                    b.ToTable("Guilds");
+                    b.ToTable("guilds");
                 });
 
             modelBuilder.Entity("Interactivity.Data.EmberMember", b =>
@@ -66,7 +66,7 @@ namespace Interactivity.Migrations
                     b.HasIndex("GuildId", "DiscordId")
                         .IsUnique();
 
-                    b.ToTable("Members");
+                    b.ToTable("members");
                 });
 
             modelBuilder.Entity("Interactivity.Data.EmberSanction", b =>
@@ -81,7 +81,7 @@ namespace Interactivity.Migrations
                     b.Property<DateTime>("Inserted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 8, 7, 12, 20, 18, 234, DateTimeKind.Local).AddTicks(8485));
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Reason")
                         .IsRequired()
@@ -90,13 +90,16 @@ namespace Interactivity.Migrations
                     b.Property<int>("ReceiverId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("type")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ById");
 
                     b.HasIndex("ReceiverId");
 
-                    b.ToTable("Sanctions");
+                    b.ToTable("sanctions");
                 });
 
             modelBuilder.Entity("Interactivity.Data.EmberMember", b =>

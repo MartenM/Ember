@@ -48,7 +48,7 @@ public class DiscordContext : DbContext
             sanction.Property(s => s.Id).ValueGeneratedOnAdd();
             sanction.HasOne(s => s.By).WithMany(m => m.IssuedSanctions).HasForeignKey(m => m.ById);
             sanction.HasOne(s => s.Receiver).WithMany(m => m.ReceivedSanctions).HasForeignKey(m => m.ReceiverId);
-            sanction.Property(s => s.Inserted).HasDefaultValue(DateTime.Now);
+            sanction.Property(s => s.Inserted).HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
     }
 }
@@ -103,6 +103,14 @@ public class EmberMember
 [Table("sanctions")]
 public class EmberSanction
 {
+    public enum Type
+    {
+        Warning,
+        Mute,
+        Ban,
+        Miscellaneous
+    }
+    
     public int Id { get; set; }
 
     public EmberMember Receiver { get; set; }
@@ -110,8 +118,8 @@ public class EmberSanction
     public EmberMember By { get; set; }
     public int ById { get; set; }
 
+    public Type type { get; set; }
     public String Reason { get; set; }
-    
+
     public DateTime Inserted { get; set; }
-    
 }
