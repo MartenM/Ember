@@ -22,7 +22,6 @@ public class DashboardModule : InteractionModuleBase<EmberInteractionContext>
     public async Task DisplayInfo()
     {
         EmbedBuilder builder = new EmbedBuilder();
-        builder.WithCurrentTimestamp();
         builder.WithTitle($"Ember guild");
         builder.Description += "**Moderation role:** " + (Context.EmberGuild!.ModRole != null ? MentionUtils.MentionRole(Context.EmberGuild!.ModRole.Value) : "Not set") + "\n";
         builder.Description += "**Audit Channel:** " + (Context.EmberGuild!.AuditChannel != null ? MentionUtils.MentionChannel(Context.EmberGuild!.AuditChannel.Value) : "Not set") + "\n";

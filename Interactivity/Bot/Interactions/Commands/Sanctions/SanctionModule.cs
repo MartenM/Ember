@@ -1,15 +1,16 @@
-﻿using System.Drawing;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
 using Discord;
 using Discord.Interactions;
 using Interactivity.Bot.Interactions.context;
+using Interactivity.Bot.Interactions.Precondition;
 using Interactivity.Bot.Services;
 using Interactivity.Data;
 using Color = Discord.Color;
 
-namespace Interactivity.Bot.Interactions.Commands;
+namespace Interactivity.Bot.Interactions.Commands.Sanctions;
 
+[IsServerModerator]
 public class SanctionModule : InteractionModuleBase<EmberInteractionContext>
 {
     private DataService _dataService;
@@ -36,7 +37,6 @@ public class SanctionModule : InteractionModuleBase<EmberInteractionContext>
         var emberUser = await _dataService.GetMember(Context.Guild.Id, member.Id);
 
         var embedBuilder = new EmbedBuilder();
-        embedBuilder.WithCurrentTimestamp();
         embedBuilder.WithAuthor(member);
         embedBuilder.WithColor(new Color(36, 240, 255));
         embedBuilder.WithTitle("User information");

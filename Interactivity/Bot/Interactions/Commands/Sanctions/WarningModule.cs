@@ -1,12 +1,11 @@
 ﻿using Discord;
 using Discord.Interactions;
-using Discord.WebSocket;
 using Interactivity.Bot.Interactions.context;
 using Interactivity.Bot.Interactions.Precondition;
 using Interactivity.Bot.Services;
 using Interactivity.Data;
 
-namespace Interactivity.Bot.Interactions.Commands;
+namespace Interactivity.Bot.Interactions.Commands.Sanctions;
 
 [IsServerModerator]
 public class WarningModule : InteractionModuleBase<EmberInteractionContext>
@@ -66,7 +65,6 @@ public class WarningModule : InteractionModuleBase<EmberInteractionContext>
         messageString += reason;
         
         var builder = new EmbedBuilder()
-            .WithCurrentTimestamp()
             .WithAuthor(Context.Guild.Name, Context.Guild.IconUrl)
             .WithColor(Color.Orange)
             .WithDescription(messageString)

@@ -3,8 +3,8 @@ using ApplicationWrap;
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
-using Interactivity.Bot.Interactions;
 using Interactivity.Bot.Services;
+using Interactivity.Bot.Services.UserServices;
 using Interactivity.Data;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -51,6 +51,7 @@ namespace Interactivity.Bot
                 .AddSingleton(_loggingService)
                 .AddSingleton(_dataService)
                 .AddDbContext<DiscordContext>()
+                .AddScoped<MutedUserService>()
                 .BuildServiceProvider();
 
             // Discover interaction modules

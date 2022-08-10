@@ -1,6 +1,4 @@
-﻿using System.Buffers;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace Interactivity.Data;
@@ -10,6 +8,7 @@ public class DiscordContext : DbContext
     public DbSet<EmberGuild> Guilds { get; set; }
     public DbSet<EmberMember> Members { get; set; }
     public DbSet<EmberSanction> Sanctions { get; set; }
+    public DbSet<UserEffect> UserEffects { get; set; }
 
     public String DbPath { get; }
 
@@ -50,6 +49,14 @@ public class DiscordContext : DbContext
             sanction.HasOne(s => s.Receiver).WithMany(m => m.ReceivedSanctions).HasForeignKey(m => m.ReceiverId);
             sanction.Property(s => s.Inserted).HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
+
+        modelBuilder.Entity<UserEffect>(effect =>
+        {
+            effect.HasKey(a => a.Id);
+            effect.Property(a => a.Id).ValueGeneratedOnAdd();
+            effect.HasOne(s => s.User).WithMany(u => u.Effects).HasForeignKey(s => s.UserId);
+            effect.Property(s => s.Inserted).HasDefaultValueSql("CURRENT_TIMESTAMP");
+        });
     }
 }
 
@@ -89,6 +96,9 @@ public class EmberMember
     // Sanction related data.
     public List<EmberSanction> IssuedSanctions { get; set; }
     public List<EmberSanction> ReceivedSanctions { get; set; }
+    
+    // Effects applied to this user
+    public List<UserEffect> Effects { get; set; }
 
     public string? ModeratorsNote { get; set; }
 
@@ -122,4 +132,42 @@ public class EmberSanction
     public String Reason { get; set; }
 
     public DateTime Inserted { get; set; }
+}
+
+/// <summary>
+/// Effects can be applied to users. Effects are applied to an user and can have certain effects.
+/// Temp-mutes, temp-bans are examples of these effects. They are applied and should expire after a certain time.
+/// Additionally effects need to persist after leaving+joining the server.
+/// </summary>
+public class UserEffect
+{
+    /// <summary>
+    /// Interal ID used for this effect
+    /// </summary>
+    public int Id { get; set; }
+    
+    /// <summary>
+    /// The Ember user ID this effect is applied to.
+    /// </summary>
+    public int UserId { get; set; }
+    
+    /// <summary>
+    /// The ember member this effect is applied to.
+    /// </summary>
+    public EmberMember User { get; set; }
+
+    /// <summary>
+    /// Type of this effect
+    /// </summary>
+    public string Type { get; set; }
+    
+    /// <summary>
+    /// The date/time when this effect was inserted.
+    /// </summary>
+    public DateTime Inserted { get; set; }
+
+    /// <summary>
+    /// The date/time when this effect should expire.
+    /// </summary>
+    public DateTime? Expires { get; set; }
 }

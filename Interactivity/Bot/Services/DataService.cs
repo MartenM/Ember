@@ -1,5 +1,4 @@
-﻿using Discord;
-using Interactivity.Data;
+﻿using Interactivity.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Interactivity.Bot.Services;

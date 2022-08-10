@@ -49,7 +49,6 @@ public class MessageModule : InteractionModuleBase<EmberInteractionContext>
     {
         var messageString = $"**You received a message from one of our moderators:**";
         var builder = new EmbedBuilder()
-            .WithCurrentTimestamp()
             .WithAuthor(Context.Guild.Name, Context.Guild.IconUrl)
             .WithColor(Color.LighterGrey)
             .WithFooter("You cannot reply to this message.");

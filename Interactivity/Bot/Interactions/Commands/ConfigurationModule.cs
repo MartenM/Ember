@@ -2,7 +2,6 @@
 using Discord.Interactions;
 using Interactivity.Bot.Interactions.context;
 using Interactivity.Bot.Services;
-using Interactivity.Data;
 
 namespace Interactivity.Bot.Interactions.Commands;
 
